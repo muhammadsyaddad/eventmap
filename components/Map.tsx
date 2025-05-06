@@ -18,6 +18,7 @@ export default function Map({ className = '' }: MapProps) {
   const tempMarkerRef = useRef<mapboxgl.Marker | null>(null);
   const { selectedLocation } = useLocationContext();
   const { locations } = useLocations();
+  
 
   // Initialize map
   useEffect(() => {
@@ -34,8 +35,27 @@ export default function Map({ className = '' }: MapProps) {
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v12',
         center: [106.8456, -6.2088], // Jakarta coordinates
-        zoom: 12
+        zoom: 12,
+        maxZoom: 18
       });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          if (map.current) {
+            map.current.flyTo({
+              center: [longitude, latitude],
+              zoom: 14,
+              essential: true,
+              duration: 1000
+            });
+          }
+        },
+        (error) => {
+          console.warn('User denied geolocation or error occurred:', error);
+          // fallback tetap di Jakarta
+        }
+      );
+      
 
     } catch (error) {
       console.error('Error initializing map:', error);

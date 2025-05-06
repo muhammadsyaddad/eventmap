@@ -22,6 +22,7 @@ import { useLocationContext } from "@/app/contexts/LocationContext"
 import { getLocationColor, toTitleCase } from '@/app/utils/colorUtils';
 import { useAuth } from "@/app/contexts/AuthContext"
 import { useRouter } from 'next/navigation'
+import { useBreakpointSide } from "@/hooks/ useBreakpointSide"
 
 // Add this interface at the top level
 interface Location {
@@ -121,6 +122,8 @@ export function PopoverDemo() {
     }
   };
 
+  const side = useBreakpointSide();
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -129,15 +132,18 @@ export function PopoverDemo() {
           <AvatarFallback>{user?.user_metadata?.name?.[0] || "U"}</AvatarFallback>
         </Avatar>
       </PopoverTrigger>
-      <PopoverContent className="w-80 mx-4" align="end" side="bottom" sideOffset={5}>
+      <PopoverContent className="w-[288px]  sm:w-80 mx-4" align="end" side="bottom" sideOffset={5}>
         <div className="grid gap-4">
-          <div className="space-y-2">
+          <div className="space-y-1 sm:space-y-2">
             {user ? (
               <>
-                <h4 className="font-medium leading-none">Welcome, {user.user_metadata?.name || 'User'}</h4>
-                <p className="text-sm text-muted-foreground">
-                  What would you like to do?
-                </p>
+                <div className="hidden sm:block">
+                  <h4 className="font-medium leading-none">Welcome, {user.user_metadata?.name || 'User'}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    What would you like to do?
+                  </p>
+
+                </div>
               </>
             ) : (
               <>
@@ -154,14 +160,16 @@ export function PopoverDemo() {
             <PopoverTrigger asChild>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="width" className="flex items-center justify-between w-[285px] cursor-pointer hover:text-blue-500">
+                  <Label htmlFor="width" className="flex items-center justify-between w-[255px] sm:w-[285px] cursor-pointer hover:text-blue-500">
                     <span>Cari</span>
                     <Search strokeWidth={2.5} className="h-4 w-4" />
                   </Label>
                 </div>
               </div>
             </PopoverTrigger>
-            <PopoverContent className="w-80 mx-4 my-[70px] " align="start" side="right" sideOffset={5}>
+            <PopoverContent className="mx-2 w-[288px] my-[30px] sm:mx-4 sm:my-[70px]" align="center" side={side} sideOffset={5}>
+            {/* w-[288px] h-[140px] mx-2 my-[-95px] sm:mx-4 sm:my-[70px */}
+           {/* { w-80 mx-4 my-[70px]} */} 
               <div className="space-y-4">
                 <h4 className="font-medium">Pencarian</h4>
                 <div className="space-y-2">
@@ -207,14 +215,14 @@ export function PopoverDemo() {
               <PopoverTrigger asChild>
                 <div className="grid gap-2">
                   <div className="flex items-center">
-                    <Label htmlFor="width" className="flex items-center justify-between w-[285px] cursor-pointer hover:text-blue-500">
+                    <Label htmlFor="width" className="flex items-center justify-between w-[255px] sm:w-[285px] cursor-pointer hover:text-blue-500">
                       <span>Tambah</span>
                       <Plus strokeWidth={2.5} className="h-4 w-4" />
                     </Label>
                   </div>
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="w-80 mx-4 my-[70px]" align="center" side="right" sideOffset={5}>
+              <PopoverContent className="w-[288px] mx-2 my-[-38px] sm:mx-4 sm:my-[70px]" align="center" side={side} sideOffset={5}>
                 <div className="space-y-4">
                   <h4 className="font-medium">Tambah Lokasi Baru</h4>
                   <form onSubmit={handleSubmit} className="space-y-4">
